@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Check Status</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+            padding: 10px 0;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .form-group {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #employee-status {
+            margin-top: 20px;
+            border: 1px solid #000;
+            padding: 10px;
+            display: inline-block;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Check-In/Out</a>
+        <a href="/status">Check Status</a>
+    </div>
+
+    <div class="container">
+        <h1>Check Employee Status</h1>
+        <form action="/status" method="POST">
+            <div class="form-group">
+                <label for="employee_id">Employee ID:</label>
+                <input type="text" id="employee_id" name="employee_id" required>
+            </div>
+            
+            <button type="submit">Check Status</button>
+        </form>
+
+        <!-- Display employee stats -->
+        {% if records %}
+        <div id="employee-status">
+            <h2>Employee Records:</h2>
+            <ul>
+                {% for record in records %}
+                <li>Date: {{ record.date }} - Check-In: {{ record.checkin }} - Check-Out: {{ record.checkout }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
+
+

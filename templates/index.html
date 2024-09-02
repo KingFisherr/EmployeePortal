@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Check-In and Check-Out</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+            padding: 10px 0;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .form-group {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/">Check-In/Out</a>
+        <a href="/status">Check Status</a>
+    </div>
+
+    <div class="container">
+        <h1>Employee Check-In</h1>
+        <form action="/checkin" method="POST">
+            <div class="form-group">
+                <label for="employee_id">Employee ID:</label>
+                <input type="text" id="employee_id" name="employee_id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="checkin_time">Check-In Time:</label>
+                <select id="hour" name="hour">
+                    {% for hour in range(1, 13) %}
+                    <option value="{{ hour }}">{{ hour }}</option>
+                    {% endfor %}
+                </select>
+                <select id="minute" name="minute">
+                    {% for minute in range(0, 60) %}
+                    <option value="{{ minute }}">{{ minute }}</option>
+                    {% endfor %}
+                </select>
+                <select id="ampm" name="ampm">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
+            
+            <button type="submit">Check-In</button>
+        </form>
+
+        <h1>Employee Check-Out</h1>
+        <form action="/checkout" method="POST">
+            <div class="form-group">
+                <label for="employee_id">Employee ID:</label>
+                <input type="text" id="employee_id" name="employee_id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="checkout_time">Check-Out Time:</label>
+                <select id="hour" name="hour">
+                    {% for hour in range(1, 13) %}
+                    <option value="{{ hour }}">{{ hour }}</option>
+                    {% endfor %}
+                </select>
+                <select id="minute" name="minute">
+                    {% for minute in range(0, 60) %}
+                    <option value="{{ minute }}">{{ minute }}</option>
+                    {% endfor %}
+                </select>
+                <select id="ampm" name="ampm">
+                    <option value="AM">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
+            
+            <button type="submit">Check-Out</button>
+        </form>
+    </div>
+</body>
+</html>
