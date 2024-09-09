@@ -18,45 +18,35 @@ if not os.path.exists(EXCEL_FILE):
 def index():
     return render_template('index.html')
 
-# Route to handle Check-In form submission
-@app.route('/checkin', methods=['POST'])
-def checkin():
+# Combined route to handle Check-In and Check-Out
+@app.route('/attendance', methods=['POST'])
+def attendance():
     employee_id = request.form['employee_id']
-    hour = request.form['hour']
-    minute = request.form['minute']
-    ampm = request.form['ampm']
-    checkin_time = f"{hour}:{minute} {ampm}"
-    current_date = datetime.now().strftime("%Y-%m-%d")  # Save the current date
+    action = request.form['action']
+    current_time = datetime.now().strftime("%I:%M %p")  # Format time as "HH:MM AM/PM"
+    current_date = datetime.now().strftime("%Y-%m-%d")  # Format date as "YYYY-MM-DD"
 
-    # Save Check-In time to Excel
-    wb = load_workbook(EXCEL_FILE)
-    ws = wb.active
-    ws.append([employee_id, current_date, checkin_time, ""])  # Leave check-out time empty for now
-    wb.save(EXCEL_FILE)
+    try:
+        wb = load_workbook(EXCEL_FILE)
+        ws = wb.active
 
-    return redirect('/')
+        if action == 'checkin':
+            # Check-In: Add a new row with check-in time
+            ws.append([employee_id, current_date, current_time, ""])  # Leave check-out time empty for now
 
-# Route to handle Check-Out form submission
-@app.route('/checkout', methods=['POST'])
-def checkout():
-    employee_id = request.form['employee_id']
-    hour = request.form['hour']
-    minute = request.form['minute']
-    ampm = request.form['ampm']
-    checkout_time = f"{hour}:{minute} {ampm}"
-    current_date = datetime.now().strftime("%Y-%m-%d")  # Save the current date
+        elif action == 'checkout':
+            # Check-Out: Find the matching row and update the check-out time
+            for row in ws.iter_rows(min_row=2):  # Assuming first row is a header
+                if row[0].value == employee_id and row[1].value == current_date and not row[3].value:
+                    row[3].value = current_time  # Update check-out time
+                    break
 
-    # Save Check-Out time to Excel
-    wb = load_workbook(EXCEL_FILE)
-    ws = wb.active
+        wb.save(EXCEL_FILE)
 
-    # Find the latest entry for this employee ID and update the check-out time
-    for row in ws.iter_rows(min_row=2, values_only=False):
-        if row[0].value == employee_id and row[1].value == current_date and row[3].value == "":
-            row[3].value = checkout_time  # Update check-out time
-            break
+    except Exception as e:
+        print(f"Error saving to Excel: {e}")
+        return "An error occurred while saving to Excel.", 500
 
-    wb.save(EXCEL_FILE)
     return redirect('/')
 
 # Route for Status Page

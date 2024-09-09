@@ -53,59 +53,17 @@
 
     <div class="container">
         <h1>Employee Check-In</h1>
-        <form action="/checkin" method="POST">
+        <form action="/attendance" method="POST">
             <div class="form-group">
                 <label for="employee_id">Employee ID:</label>
                 <input type="text" id="employee_id" name="employee_id" required>
             </div>
-
-            <div class="form-group">
-                <label for="checkin_time">Check-In Time:</label>
-                <select id="hour" name="hour">
-                    {% for hour in range(1, 13) %}
-                    <option value="{{ hour }}">{{ hour }}</option>
-                    {% endfor %}
-                </select>
-                <select id="minute" name="minute">
-                    {% for minute in range(0, 60) %}
-                    <option value="{{ minute }}">{{ minute }}</option>
-                    {% endfor %}
-                </select>
-                <select id="ampm" name="ampm">
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                </select>
-            </div>
             
-            <button type="submit">Check-In</button>
-        </form>
-
-        <h1>Employee Check-Out</h1>
-        <form action="/checkout" method="POST">
-            <div class="form-group">
-                <label for="employee_id">Employee ID:</label>
-                <input type="text" id="employee_id" name="employee_id" required>
-            </div>
-
-            <div class="form-group">
-                <label for="checkout_time">Check-Out Time:</label>
-                <select id="hour" name="hour">
-                    {% for hour in range(1, 13) %}
-                    <option value="{{ hour }}">{{ hour }}</option>
-                    {% endfor %}
-                </select>
-                <select id="minute" name="minute">
-                    {% for minute in range(0, 60) %}
-                    <option value="{{ minute }}">{{ minute }}</option>
-                    {% endfor %}
-                </select>
-                <select id="ampm" name="ampm">
-                    <option value="AM">AM</option>
-                    <option value="PM">PM</option>
-                </select>
-            </div>
+            <!-- Check-In Button -->
+            <button type="submit" name="action" value="checkin">Check-In</button>
             
-            <button type="submit">Check-Out</button>
+            <!-- Check-Out Button -->
+            <button type="submit" name="action" value="checkout">Check-Out</button>
         </form>
     </div>
 </body>
